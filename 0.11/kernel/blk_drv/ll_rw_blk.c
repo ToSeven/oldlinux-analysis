@@ -126,14 +126,14 @@ repeat:
 			unlock_buffer(bh);
 			return;
 		}
-		sleep_on(&wait_for_request);
+		sleep_on(&wait_for_request);   //睡眠
 		goto repeat;
 	}
 /* fill up the request-info, and add it to the queue */
 	req->dev = bh->b_dev;
 	req->cmd = rw;
 	req->errors=0;
-	req->sector = bh->b_blocknr<<1;
+	req->sector = bh->b_blocknr<<1;  //起始扇区 块号转换成扇区号 1块=2扇区
 	req->nr_sectors = 2;
 	req->buffer = bh->b_data;
 	req->waiting = NULL;

@@ -1,12 +1,13 @@
 # Check running envrionment
-LAB_ENV_ID=/home/ubuntu/Desktop/lab.desktop
-ifneq ($(LAB_ENV_ID),$(wildcard $(LAB_ENV_ID)))
-  ifneq (../../configs/linux-0.11-lab, $(wildcard ../../configs/linux-0.11-lab))
-    $(error ERR: No 'Cloud Lab' found, please refer to 'Download the lab' part of README.md)
-  else
-    $(error ERR: Please not try Linux 0.11 Lab in local host, but use it with 'Cloud Lab', please refer to 'Install the environment' part of README.md)
-  endif
-endif
+# DOCKER ?= no 
+# LAB_ENV_ID=/home/ubuntu/Desktop/lab.desktop
+# ifneq ($(LAB_ENV_ID),$(wildcard $(LAB_ENV_ID)))
+#   ifneq (../../configs/linux-0.11-lab, $(wildcard ../../configs/linux-0.11-lab))
+#     $(error ERR: No 'Cloud Lab' found, please refer to 'Download the lab' part of README.md)
+#   else
+#     $(error ERR: Please not try Linux 0.11 Lab in local host, but use it with 'Cloud Lab', please refer to 'Install the environment' part of README.md)
+#   endif
+# endif
 
 include Makefile.head
 

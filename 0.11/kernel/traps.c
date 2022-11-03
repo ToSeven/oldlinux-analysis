@@ -10,6 +10,10 @@
  * to mainly kill the offending process (probably by giving it a signal,
  * but possibly by killing it outright if necessary).
  */
+/*
+ * 在程序 asm.s 中保存了一些状态后，本程序用来处理硬件陷阱和故障。目前主要用于调试目的，
+ * 以后将扩展用来杀死遭损坏的进程(主要是通过发送一个信号，但如果必要也会直接杀死)。 */
+
 #include <string.h> 
 
 #include <linux/head.h>
@@ -178,6 +182,9 @@ void do_reserved(long esp, long error_code)
 	die("reserved (15,17-47) error",esp,error_code);
 }
 
+// 下面是异常(陷阱)中断程序初始化子程序。设置它们的中断调用门(中断向量)。
+// set_trap_gate()与 set_system_gate()都使用了中断描述符表 IDT 中的陷阱门(Trap Gate)，它们之间的主要区别在于前者设置的特权级为 0，后者是 3。因此断点陷阱中断 int3、溢出中断overflow 和边界出错中断 bounds 可以由任何程序调用。 这两个函数均是嵌入式汇编宏程序，参见 include/asm/system.h，第 36 行、39 行。
+
 void trap_init(void)
 {
 	int i;
@@ -201,6 +208,9 @@ void trap_init(void)
 	set_trap_gate(16,&coprocessor_error);
 	for (i=17;i<48;i++)
 		set_trap_gate(i,&reserved);
+
+	/*下面设置协处理器 int45(0x20+13)陷阱门描述符，并允许其产生中断请求。协处理器的中断请求 号 IRQ13 连接在 8259 从芯片的 IR5 引脚上。行 210-211 上两语句用于允许协处理器发送中断请求信号。另外这里也设置并行口 1 的中断号 int39(0x20+7)的门描述符。其中断请求号 IRQ7 连接在8259 主芯片的 IR7 引脚上。请参见图 2-6 中的 8259A 硬件连接电路。 */
+	
 	set_trap_gate(45,&irq13);
 	outb_p(inb_p(0x21)&0xfb,0x21);
 	outb(inb_p(0xA1)&0xdf,0xA1);

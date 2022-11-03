@@ -1,6 +1,6 @@
 /*
  *  linux/kernel/fork.c
- *
+  下面代码用于初始化 8253 定时器。通道 0，选择工作方式 3，二进制计数方式。通道 0 的输出引脚接在中断控制主芯片的 IRQ0 上，它每 10 毫秒发出一个 IRQ0 请求。LATCH 是初始 // 定时计数值。
  *  (C) 1991  Linus Torvalds
  */
 
@@ -19,7 +19,7 @@
 #include <asm/system.h>
 
 extern void write_verify(unsigned long address);
-
+// 在用户堆栈中从下到上存放 sa_restorer、信号 signr、屏蔽码 blocked(若 SA_NOMASK 置位)、 // eax、ecx、edx、eflags 和用户程序原代码指针。
 long last_pid=0;
 
 void verify_area(void * addr,int size)

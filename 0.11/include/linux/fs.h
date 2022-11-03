@@ -117,8 +117,8 @@ struct file {
 	unsigned short f_mode;
 	unsigned short f_flags;
 	unsigned short f_count;
-	struct m_inode * f_inode;
-	off_t f_pos;
+	struct m_inode * f_inode; // 内存中的i节点
+	off_t f_pos;   //文件当前的读写指针位置
 };
 
 struct super_block {
@@ -160,7 +160,7 @@ struct dir_entry {
 };
 
 extern struct m_inode inode_table[NR_INODE];
-extern struct file file_table[NR_FILE];
+extern struct file file_table[NR_FILE];   //文件表数组
 extern struct super_block super_block[NR_SUPER];
 extern struct buffer_head * start_buffer;
 extern int nr_buffers;
